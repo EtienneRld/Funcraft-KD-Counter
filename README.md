@@ -21,6 +21,7 @@ Exemple:
 - Option pour réinitialiser automatique le compteur à chaque relancement d'une partie :grey_question:
 
 **Potentiels problèmes rencontrables**: 
+- Si vous cliquez dans la console elle se fige avec le programme, appuyez sur une touche dans la console pour la réactiver :snowflake:
 - Un joueur se déconnecte en pleine partie et revient avec un autre pseudo (nick ou changement premium) :japanese_goblin:
 - Message de mort non répertorié (du style suffocation qui arrive très rarement) :tired_face:
 - Affichage erroné des caractères unicodes dans la console :a:
