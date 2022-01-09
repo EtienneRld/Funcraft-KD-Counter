@@ -1,13 +1,5 @@
-﻿#include <iostream>
-#include <fstream>
-#include <string>
-#include <thread>
+﻿#include <thread>
 #include <Windows.h>
-#include <io.h>
-#include <fcntl.h>
-#include <vector>
-#include <thread>
-#include <chrono>
 
 #include "log.h"
 #include "player.h"
@@ -47,7 +39,7 @@ int main()
             std::cin >> path_log;
 
             // The last character of the path is not "/" if so, adding one.
-            if (path_log.back() != (char)"/")
+            if ((const char*)path_log.back() != "/")
             {
                 path_log.append("\\");
             }

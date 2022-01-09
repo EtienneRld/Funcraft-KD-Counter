@@ -1,3 +1,5 @@
+#include <string>
+
 #include "log.h"
 #include "console.h"
 #include "player.h"
@@ -112,11 +114,11 @@ void check_line(std::string line)
                     for (j = 0; j < player_list.size() - i - 1; j++)
                     {
                         /* Pour un ordre décroissant utiliser < */
-                        if (player_list.at(j).deaths < player_list.at(j + 1).deaths)
+                        if (player_list.at(j).deaths < player_list.at(static_cast<std::vector<PLAYER, std::allocator<PLAYER>>::size_type>(j) + 1).deaths)
                         {
                             tmp = player_list.at(j);
-                            player_list.at(j) = player_list.at(j + 1);
-                            player_list.at(j + 1) = tmp;
+                            player_list.at(j) = player_list.at(static_cast<std::vector<PLAYER, std::allocator<PLAYER>>::size_type>(j) + 1);
+                            player_list.at(static_cast<std::vector<PLAYER, std::allocator<PLAYER>>::size_type>(j) + 1) = tmp;
                         }
                     }
                 }

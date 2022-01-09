@@ -2,12 +2,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <thread>
-#include <Windows.h>
-#include <io.h>
-#include <fcntl.h>
-#include <vector>
 
 void read_log(std::string path);
 void check_line(std::string line);
