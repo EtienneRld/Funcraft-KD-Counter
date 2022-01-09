@@ -2,11 +2,11 @@
 
 Petite application console en développement permettant de compter les kills / morts durant vos parties sur **FunCraft**.
 
-Une fois que cette application sera complète, elle sera adaptée en interface graphique grâce au framework .NET du C#
+Une fois que cette application sera complète, elle sera adaptée en interface graphique grâce au framework .NET du C#.
 
 Si vous rencontrez des bugs ou que vous avez des questions vous pouvez me contacter sur Discord: Etienne#1230
 
-Merci à iPrisc & Choixpeau d'avoir accordé une partie de leur temps pour faire des tests
+Merci à iPrisc & Choixpeau d'avoir accordé une partie de leur temps pour faire des tests.
 
 Exemple: 
 
