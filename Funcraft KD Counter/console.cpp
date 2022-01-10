@@ -14,7 +14,7 @@ void update_console()
         std::cout << "Nombre de joueurs trouvés: " << player_list.size() << "\n\n";
         std::cout << "-------------------------\n";
 
-        for (int i = 0; i < player_list.size(); i++)
+        for (unsigned int i = 0; i < player_list.size(); i++)
         {
             std::cout << "Pseudo: " << player_list.at(i).name << "\n";
             //std::cout << "Kills: " << players.at(i).kills << "\n";

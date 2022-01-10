@@ -104,7 +104,7 @@ void check_line(std::string line)
                     }
                 }
 
-                int i, j;
+                unsigned int i, j;
                 PLAYER tmp;
 
                 //afficher les éléments du tableau
@@ -136,7 +136,7 @@ bool in_list(std::string name)
 {
     if (!player_list.empty())
     {
-        for (int i = 0; i < player_list.size(); i++)
+        for (unsigned int i = 0; i < player_list.size(); i++)
         {
             if (player_list.at(i).name == name)
             {
@@ -154,7 +154,7 @@ int get_player_index(std::string name)
 {
     if (!player_list.empty())
     {
-        for (int i = 0; i < player_list.size(); i++)
+        for (unsigned int i = 0; i < player_list.size(); i++)
         {
             if (player_list.at(i).name == name)
             {
