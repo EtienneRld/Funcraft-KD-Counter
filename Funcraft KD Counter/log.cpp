@@ -1,184 +1,107 @@
-#include <string>
-
+#include <regex>
 #include "log.h"
 #include "console.h"
 #include "player.h"
 
-//"é = "�"
-std::string death_args[3] = { " est mort.", "a été tué par", "a été tué par" };
+std::regex rgx("\\b(?!(?:par|une|est|TNT|vide|mort|chute|suffocation)\\b)\\w{3,16}");
+std::string death_args[] = { " est mort.", " a été tué" };
+unsigned int death_args_size = 2;
 
-// Used to read every new line of the log file.
 void read_log(std::string path)
 {
-    std::cout << "\nL'affichage du compteur s'activera quand\n";
-    std::cout << "il détectera un événement de mort dans le tchat.";
-
     std::ifstream log(path, std::ifstream::in);
-    std::streampos pos = 0;
+    std::string line, last_line;
+    std::streampos pos;
 
-    std::string line;
-    std::string last_line;
+    std::cout << "\nL'affichage du compteur s'activera quand";
+    std::cout << "\nil détectera un événement de mort dans le tchat.";
 
     log.seekg(-1, std::ios_base::end);
 
-    while (log.good())
-    {
+    while (log.good()) {
         last_line = line;
 
-        if (getline(log, line))
-        {
-            // To show every new line
-            //std::cout << "\n" << line;
-
-            if (line != last_line)
-            {
+        if (getline(log, line)) {
+            if (line != last_line) {
                 check_line(line);
             }
-
             pos = !log.tellg() ? pos += line.size() : pos = log.tellg();
         }
-
         log.clear();
         log.seekg(pos);
     }
-
     log.close();
-
     return;
 }
 
-// Call every time a new line is read by the function read_log().
 void check_line(std::string line)
 {
-    if (find_all_char(line, ":") == 3)
-    {
-        for (int i = 0; i < 2; i++)
-        {
-            if (line.find(death_args[i]) != std::string::npos)
-            {
-                std::size_t start = line.find("[CHAT]") + 14;
-                std::string stop;
-
-                if (i == 0)
-                {
-                    stop = " est ";
-                }
-
-                else
-                {
-                    stop = " a ";
-                }
-
-                std::string name = line.substr(start, line.find(stop) - start);
-
-                struct tm newtime;
-                time_t now = time(0);
-                char buf[80];
-                localtime_s(&newtime, &now);
-                strftime(buf, sizeof(buf), "%X", &newtime);
-
-                if (!in_list(name))
-                {
-                    PLAYER player;
-
-                    player.name = name;
-                    player.last_death = buf;
-                    player.deaths++;
-
-                    player_list.push_back(player);
-                }
-
-                else
-                {
-                    int index = get_player_index(name);
-
-                    if (index == -1)
-                    {
-                        std::cout << "Error cannot found player by name";
-                    }
-
-                    else
-                    {
-                        player_list.at(index).last_death = buf;
-                        player_list.at(index).deaths++;
-                    }
-                }
-
-                unsigned int i, j;
-                PLAYER tmp;
-
-                //afficher les �l�ments du tableau
-
-                for (i = 0; i < player_list.size() - 1; i++)
-                {
-                    for (j = 0; j < player_list.size() - i - 1; j++)
-                    {
-                        /* Pour un ordre d�croissant utiliser < */
-                        if (player_list.at(j).deaths < player_list.at(static_cast<std::vector<PLAYER, std::allocator<PLAYER>>::size_type>(j) + 1).deaths)
-                        {
-                            tmp = player_list.at(j);
-                            player_list.at(j) = player_list.at(static_cast<std::vector<PLAYER, std::allocator<PLAYER>>::size_type>(j) + 1);
-                            player_list.at(static_cast<std::vector<PLAYER, std::allocator<PLAYER>>::size_type>(j) + 1) = tmp;
-                        }
-                    }
-                }
-
-                update_console();
+    if (find_all_char(line, ":") == 3) {
+        bool death_event = false;
+        
+        for (unsigned int i = 0; i < death_args_size; i++) {
+            if (line.find(death_args[i]) != std::string::npos) {
+                death_event = true;
             }
         }
-    }
 
+        if (death_event) {
+            line = line.substr(line.find("[CHAT]") + 14);
+
+            std::string::const_iterator start(line.cbegin());
+            std::vector<std::string> event_args;
+            std::smatch player;
+
+            while (std::regex_search(start, line.cend(), player, rgx)) {
+                event_args.push_back(player[0]);
+                start = player.suffix().first;
+            }
+            add_death(event_args[0]);
+
+            for (unsigned int i = 1; i < event_args.size(); i++) {
+                add_kill(event_args[i]);
+            }
+            event_args.clear();
+            update_ratio();
+            sort_players();
+            update_console();
+        }
+    }
     return;
 }
 
-// Check if the player is already in the list to prevent double struct.
-bool in_list(std::string name)
+bool in_list(std::string player_name)
 {
-    if (!player_list.empty())
-    {
-        for (unsigned int i = 0; i < player_list.size(); i++)
-        {
-            if (player_list.at(i).name == name)
-            {
+    if (!player_list.empty()) {
+        for (const PLAYER& player : player_list) {
+            if (player.name == player_name) {
                 return true;
             }
         }
     }
-
-
     return false;
 }
 
-// Get the index of a struct player by is name, in the vector players.
-int get_player_index(std::string name)
+unsigned int find_all_char(std::string line, const char* character)
 {
-    if (!player_list.empty())
-    {
-        for (unsigned int i = 0; i < player_list.size(); i++)
-        {
-            if (player_list.at(i).name == name)
-            {
+    unsigned int count = 0;
+    size_t pos = line.find(character, 0);
+
+    while (pos != std::string::npos) {
+        count++;
+        pos = line.find(character, pos + 1);
+    }
+    return count;
+}
+
+int get_player_index(std::string player_name)
+{
+    if (!player_list.empty()) {
+        for (unsigned int i = 0; i < player_list.size(); i++) {
+            if (player_list.at(i).name == player_name) {
                 return i;
             }
         }
     }
-
     return -1;
-}
-
-// Return the number of characters specified on a line.
-int find_all_char(std::string line, const char* character)
-{
-    int count = 0;
-
-    size_t pos = line.find(character, 0);
-
-    while (pos != std::string::npos)
-    {
-        count++;
-
-        pos = line.find(character, pos + 1);
-    }
-
-    return count;
 }
