@@ -8,6 +8,8 @@ En attendant de trouver un regex pratique, voici une liste non exhaustive des ps
 
 "par", "une", "est", "TNT", "vide", "mort", "chute", "suffocation".
 
+Ce programme n'a pas été testé en dehors du Rush, il est possible de rencontrer des bugs en dehors de ce mode de jeu.
+
 Si vous rencontrez des bugs ou que vous avez des questions vous pouvez me contacter sur Discord: Etienne#1230
 
 Exemple en jeu: 
