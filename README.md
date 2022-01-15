@@ -4,18 +4,20 @@ Petite application console en développement permettant de compter les kills / m
 
 Une fois que cette application sera complète, elle sera adaptée en interface graphique grâce au framework .NET du C#.
 
+En attendant de trouver un regex pratique, voici une liste non exhaustive des pseudos pouvant causer un bug :
+
+"par", "une", "est", "TNT", "vide", "mort", "chute", "suffocation".
+
 Si vous rencontrez des bugs ou que vous avez des questions vous pouvez me contacter sur Discord: Etienne#1230
 
-Merci à iPrisc & Choixpeau d'avoir accordé une partie de leur temps pour faire des tests.
+Exemple en jeu: 
 
-Exemple: 
-
-![Exemple compteur](https://i.imgur.com/0PdHNLD.png?raw=true "Exemple Compteur")
+![Exemple compteur](https://i.imgur.com/ydTMxt0.png?raw=true "Exemple Compteur")
 
 **TODO**:
 
-- Compteur de kills :clock3:
-- Affichage du ratio :clock1030:
+- Compteur de kills ✔️
+- Affichage du ratio ✔️
 - Compteur d'assits :grey_question:
 - Détection des équipes :grey_question: :tired_face:
 - Option pour réinitialiser automatique le compteur à chaque relancement d'une partie :grey_question:
