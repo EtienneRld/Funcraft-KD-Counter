@@ -17,7 +17,7 @@ void update_console()
 
             std::string color = (player_list.at(i).ratio >= 1.f) ? "\033[32m" : "\033[33m";
 
-            std::cout << "Ratio: " << color << std::setprecision(3) << player_list.at(i).ratio << "\033[0m\n";
+            std::cout << "Ratio: " << color << std::setprecision(2) << player_list.at(i).ratio << "\033[0m\n";
             std::cout << "Kills: \033[94m" << player_list.at(i).kills << "\033[0m\n";
             std::cout << "Morts: \033[91m" << player_list.at(i).deaths << "\033[0m\n";
             
