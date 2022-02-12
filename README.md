@@ -1,8 +1,8 @@
 # Funcraft-KD-Counter
 
-Petite application console en développement permettant de compter les kills / morts durant vos parties sur **FunCraft**.
+:warning: Cette application est en cours d'adaptation pour un format web :) :warning: 
 
-Une fois que cette application sera complète, elle sera adaptée en interface graphique grâce au framework .NET du C#.
+Petite application console en développement permettant de compter les kills / morts durant vos parties sur **FunCraft**.
 
 En attendant de trouver un regex pratique, voici une liste non exhaustive des pseudos pouvant causer un bug :
 
