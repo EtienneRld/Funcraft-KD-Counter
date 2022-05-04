@@ -1,6 +1,6 @@
 # Funcraft-KD-Counter
 
-:warning: Cette application est en cours d'adaptation pour un format web :) :warning: 
+:warning: Cette application a été adaptée au format web - https://funcraft.live :warning: 
 
 Petite application console en développement permettant de compter les kills / morts durant vos parties sur **FunCraft**.
 
